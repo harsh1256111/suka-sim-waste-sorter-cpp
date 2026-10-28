@@ -1,0 +1,23 @@
+name: C++17 & CI/CD Build and Unit Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile Sorting Controller (g++ C++17)
+        run: make all
+
+      - name: Execute Unit Test Suite
+        run: make test
+
+      - name: Run High-Speed Conveyor Telemetry Simulation
+        run: make simulate

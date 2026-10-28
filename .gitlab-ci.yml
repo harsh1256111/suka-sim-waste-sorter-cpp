@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - simulate
+
+variables:
+  CXX: g++
+
+build_linux:
+  stage: build
+  image: gcc:12
+  script:
+    - make clean && make all
+  artifacts:
+    paths:
+      - waste_sorter
+    expire_in: 1 week
+
+unit_tests:
+  stage: test
+  image: gcc:12
+  needs: ["build_linux"]
+  script:
+    - ./waste_sorter --test
+
+conveyor_simulation:
+  stage: simulate
+  image: gcc:12
+  needs: ["unit_tests"]
+  script:
+    - ./waste_sorter --simulate
